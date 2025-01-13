@@ -3,11 +3,15 @@
 
 class MinesweeperCell
 {
-    bool isBomb;
+    bool hasBomb;
     int adjBombs;
+    bool hasFlag;
 
 public:
-    int setBomb();
+    bool setFlag();
+    void setBomb();
+    bool isBomb();
+    int getAdjBombs();
     void incrementAdjBombs();
 };
 

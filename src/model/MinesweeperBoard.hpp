@@ -15,8 +15,9 @@ public:
     // Generates the board with the cells, will override existing cells.
     MinesweeperBoard();
     void reset();
-    int rightClickCell(int, int);
-    int leftClickCell(int, int);
+    bool rightClickCell(int, int);
+    bool leftClickCell(int, int);
+    MinesweeperCell (&getBoard())[16][30];
 };
 
 #endif
