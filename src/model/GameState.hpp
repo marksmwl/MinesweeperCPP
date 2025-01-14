@@ -14,7 +14,7 @@ public:
     bool leftClick(int, int);
     bool rightCLick(int, int);
     void reset();
-    int (&getBoard())[16][30];
+    void getBoard(int outBoard[16][30]);
 };
 
 #endif

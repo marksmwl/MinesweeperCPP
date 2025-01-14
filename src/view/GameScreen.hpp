@@ -3,17 +3,23 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QVector>
 #include "MinesweeperCellButton.hpp"
 #include "../controller/GameController.hpp"
 
 class GameScreen : public QWidget
 {
+    Q_OBJECT
+private:
     GameController *viewController;
+    void render();
+    QGridLayout *gridLayout;
+    QVector<QVector<CellButton *>> buttons; // Store buttons in a 2D vector
 
 public:
     GameScreen(QWidget *parent, GameController *controller);
-    // Rerender screen when a button is clicked.
-    void onButtonClick();
-};
 
+private slots:
+    void onButtonClick(int row, int col);
+};
 #endif

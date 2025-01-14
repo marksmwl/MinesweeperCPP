@@ -6,7 +6,7 @@ GameState::GameState()
     {
         for (int col = 0; col < 30; col++)
         {
-            boardMask[row][col] = 1;
+            boardMask[row][col] = -1;
         }
     }
 }
@@ -34,25 +34,20 @@ void GameState::reset()
     board.reset();
 }
 
-int (&GameState::getBoard())[16][30]
+void GameState::getBoard(int outBoard[16][30])
 {
-    static int gameBoard[16][30];
-
     for (int row = 0; row < 16; row++)
     {
         for (int col = 0; col < 30; col++)
         {
-            // Set the cell to -1 to make it hidden.
-            if (boardMask[row][col] == 1)
+            if (boardMask[row][col] == -1)
             {
-                gameBoard[row][col] = -1;
+                outBoard[row][col] = -1;
             }
-            else // Otherwise set it to the number of bombs it's ajacent to.
+            else
             {
-                gameBoard[row][col] = board.getBoard()[row][col].getAdjBombs();
+                outBoard[row][col] = board.getBoard()[row][col].getAdjBombs();
             }
         }
     }
-
-    return gameBoard;
 }

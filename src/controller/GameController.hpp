@@ -13,7 +13,7 @@ public:
     bool LeftClickCell(int, int);
     static void start();
     void restart();
-    int (&getState())[16][30];
+    void getState(int outBoard[16][30]);
 };
 
 #endif

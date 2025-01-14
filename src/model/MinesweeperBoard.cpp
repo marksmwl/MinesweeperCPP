@@ -1,6 +1,8 @@
 #include "MinesweeperBoard.hpp"
 #include <cassert>
+#include <iostream>
 
+// TODO: FIX
 void MinesweeperBoard::setAdjacent(int row, int col)
 {
     // +1  0  0
@@ -39,14 +41,14 @@ void MinesweeperBoard::setAdjacent(int row, int col)
 
 void MinesweeperBoard::setBombs()
 {
-    // We have 480 cells, I will choose a max of 15% bombs for a medium difficulty (72 bombs)
+    // We have 480 cells, I will choose a max of 10% bombs for a easy difficulty (48 bombs)
     int bombsPlaced = 0;
 
     for (int row = 0; row < 16; row++)
     {
         for (int col = 0; col < 30; col++)
         {
-            if (rand() % 5 == 0 && bombsPlaced < 72)
+            if (rand() % 5 == 0 && bombsPlaced < 48)
             {
                 bombsPlaced++;
                 cells[row][col].setBomb();
@@ -89,38 +91,47 @@ bool MinesweeperBoard::leftClickCell(int row, int col, int (&mask)[16][30])
     {
         return true;
     }
+
     sweep(row, col, mask);
     return false;
 }
 
 void MinesweeperBoard::sweep(int row, int col, int (&mask)[16][30])
 {
-    if (row < 0 || row > 15 || col < 0 || col > 29)
+
+    // Add check to prevent infinite recursion
+    if (row < 0 || row > 15 || col < 0 || col > 29 || mask[row][col] != -1)
     {
         return;
     }
 
     int bombNum = cells[row][col].getAdjBombs();
-    if (bombNum > 0)
+    mask[row][col] = bombNum; // Update mask before recursion
+
+    // Only recurse if this is a zero cell
+    if (bombNum == 0)
     {
-        mask[row][col] = bombNum;
-        return;
+        sweep(row + 1, col, mask);
+        // sweep(row + 1, col + 1, mask);
+        // sweep(row + 1, col - 1, mask);
+        sweep(row, col + 1, mask);
+        sweep(row, col - 1, mask);
+        sweep(row - 1, col, mask);
+        // sweep(row - 1, col + 1, mask);
+        // sweep(row - 1, col - 1, mask);
     }
-    mask[row][col] = bombNum;
-
-    sweep(row + 1, col, mask);
-    sweep(row + 1, col + 1, mask);
-    sweep(row + 1, col - 1, mask);
-
-    sweep(row, col + 1, mask);
-    sweep(row, col - 1, mask);
-
-    sweep(row - 1, col, mask);
-    sweep(row - 1, col + 1, mask);
-    sweep(row - 1, col - 1, mask);
 }
 
 MinesweeperCell (&MinesweeperBoard::getBoard())[16][30]
 {
+    for (int row = 0; row < 16; row++)
+    {
+        std::cout << '\n';
+        for (int col = 0; col < 30; col++)
+        {
+            std::cout << cells[row][col].getAdjBombs() << " ";
+        }
+    }
+    std::cout << '\n\n';
     return cells;
 }

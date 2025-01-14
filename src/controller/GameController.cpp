@@ -23,7 +23,7 @@ void GameController::restart()
 {
 }
 
-int (&GameController::getState())[16][30]
+void GameController::getState(int outBoard[16][30])
 {
-    return model->getBoard();
+    model->getBoard(outBoard);
 }

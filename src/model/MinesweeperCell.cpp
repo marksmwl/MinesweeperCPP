@@ -12,6 +12,10 @@ bool MinesweeperCell::isBomb()
 
 int MinesweeperCell::getAdjBombs()
 {
+    if (hasBomb)
+    {
+        return -2;
+    }
     return adjBombs;
 }
 

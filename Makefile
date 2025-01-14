@@ -15,8 +15,8 @@ EQ            = =
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -O2 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=14.0 -Wall -Wextra $(DEFINES)
-CXXFLAGS      = -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=14.0 -Wall -Wextra $(DEFINES)
+CFLAGS        = -pipe -O2 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=10.15 -Wall -Wextra $(DEFINES)
+CXXFLAGS      = -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=10.15 -Wall -Wextra $(DEFINES)
 INCPATH       = -I. -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/AGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/AGL.framework/Headers -I/opt/homebrew/share/qt/mkspecs/macx-clang -F/opt/homebrew/lib
 QMAKE         = /opt/homebrew/bin/qmake
 DEL_FILE      = rm -f
@@ -39,7 +39,7 @@ COMPRESS      = gzip -9f
 DISTNAME      = MineSweeper1.0.0
 DISTDIR = /Users/marksamwaiel/Desktop/untitled\ folder\ 2/.tmp/MineSweeper1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=14.0 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/opt/homebrew/lib
+LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=10.15 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/opt/homebrew/lib
 LIBS          = $(SUBLIBS) -F/opt/homebrew/lib -framework QtWidgets -framework QtGui -framework AppKit -framework ImageIO -framework Metal -framework QtCore -framework IOKit -framework DiskArbitration -framework AGL -framework OpenGL   
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
@@ -54,18 +54,21 @@ OBJECTS_DIR   = ./
 
 SOURCES       = src/main.cpp \
 		src/controller/GameController.cpp \
-		src/view/GameScreen.cpp \
-		src/view/MineSweeperCellButton.cpp \
 		src/model/GameState.cpp \
 		src/model/MinesweeperBoard.cpp \
-		src/model/MinesweeperCell.cpp 
+		src/model/MinesweeperCell.cpp \
+		src/view/GameScreen.cpp \
+		src/view/MinesweeperCellButton.cpp moc_GameScreen.cpp \
+		moc_MinesweeperCellButton.cpp
 OBJECTS       = main.o \
 		GameController.o \
-		GameScreen.o \
-		MineSweeperCellButton.o \
 		GameState.o \
 		MinesweeperBoard.o \
-		MinesweeperCell.o
+		MinesweeperCell.o \
+		GameScreen.o \
+		MinesweeperCellButton.o \
+		moc_GameScreen.o \
+		moc_MinesweeperCellButton.o
 DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/device_config.prf \
 		/opt/homebrew/Cellar/qt/6.7.3/share/qt/mkspecs/common/unix.conf \
@@ -409,13 +412,18 @@ DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/exceptions.prf \
 		/opt/homebrew/share/qt/mkspecs/features/yacc.prf \
 		/opt/homebrew/share/qt/mkspecs/features/lex.prf \
-		project.pro  src/main.cpp \
+		project.pro src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp \
+		src/view/GameScreen.hpp \
+		src/view/MinesweeperCellButton.hpp src/main.cpp \
 		src/controller/GameController.cpp \
-		src/view/GameScreen.cpp \
-		src/view/MineSweeperCellButton.cpp \
 		src/model/GameState.cpp \
 		src/model/MinesweeperBoard.cpp \
-		src/model/MinesweeperCell.cpp
+		src/model/MinesweeperCell.cpp \
+		src/view/GameScreen.cpp \
+		src/view/MinesweeperCellButton.cpp
 QMAKE_TARGET  = MineSweeper
 DESTDIR       = 
 TARGET        = MineSweeper.app/Contents/MacOS/MineSweeper
@@ -1147,7 +1155,7 @@ MineSweeper.app/Contents/PkgInfo:
 MineSweeper.app/Contents/Info.plist: 
 	@test -d MineSweeper.app/Contents || mkdir -p MineSweeper.app/Contents
 	@$(DEL_FILE) MineSweeper.app/Contents/Info.plist
-	@plutil -convert xml1 -o - /opt/homebrew/share/qt/mkspecs/macx-clang/Info.plist.app | sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,\$${QMAKE_SHORT_VERSION},1.0,g" -e "s,@FULL_VERSION@,1.0.0,g" -e "s,\$${QMAKE_FULL_VERSION},1.0.0,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" -e "s,@BUNDLEIDENTIFIER@,Mark.MineSweeper,g" -e "s,\$${PRODUCT_BUNDLE_IDENTIFIER},Mark.MineSweeper,g" -e "s,\$${MACOSX_DEPLOYMENT_TARGET},14.0,g" -e "s,\$${IPHONEOS_DEPLOYMENT_TARGET},,g" -e "s,\$${TVOS_DEPLOYMENT_TARGET},,g" -e "s,\$${WATCHOS_DEPLOYMENT_TARGET},,g" -e "s,\$${IOS_LAUNCH_SCREEN},LaunchScreen,g" -e "s,@ICON@,,g" -e "s,\$${ASSETCATALOG_COMPILER_APPICON_NAME},,g" -e "s,@EXECUTABLE@,MineSweeper,g" -e "s,@LIBRARY@,MineSweeper,g" -e "s,\$${EXECUTABLE_NAME},MineSweeper,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" >MineSweeper.app/Contents/Info.plist
+	@plutil -convert xml1 -o - /opt/homebrew/share/qt/mkspecs/macx-clang/Info.plist.app | sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,\$${QMAKE_SHORT_VERSION},1.0,g" -e "s,@FULL_VERSION@,1.0.0,g" -e "s,\$${QMAKE_FULL_VERSION},1.0.0,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" -e "s,@BUNDLEIDENTIFIER@,Mark.MineSweeper,g" -e "s,\$${PRODUCT_BUNDLE_IDENTIFIER},Mark.MineSweeper,g" -e "s,\$${MACOSX_DEPLOYMENT_TARGET},10.15,g" -e "s,\$${IPHONEOS_DEPLOYMENT_TARGET},,g" -e "s,\$${TVOS_DEPLOYMENT_TARGET},,g" -e "s,\$${WATCHOS_DEPLOYMENT_TARGET},,g" -e "s,\$${IOS_LAUNCH_SCREEN},LaunchScreen,g" -e "s,@ICON@,,g" -e "s,\$${ASSETCATALOG_COMPILER_APPICON_NAME},,g" -e "s,@EXECUTABLE@,MineSweeper,g" -e "s,@LIBRARY@,MineSweeper,g" -e "s,\$${EXECUTABLE_NAME},MineSweeper,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" >MineSweeper.app/Contents/Info.plist
 
 all: Makefile \
 		MineSweeper.app/Contents/PkgInfo \
@@ -1160,7 +1168,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/controller/GameController.cpp src/view/GameScreen.cpp src/view/MineSweeperCellButton.cpp src/model/GameState.cpp src/model/MinesweeperBoard.cpp src/model/MinesweeperCell.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/controller/GameController.hpp src/model/GameState.hpp src/model/MinesweeperBoard.hpp src/model/MinesweeperCell.hpp src/view/GameScreen.hpp src/view/MinesweeperCellButton.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/controller/GameController.cpp src/model/GameState.cpp src/model/MinesweeperBoard.cpp src/model/MinesweeperCell.cpp src/view/GameScreen.cpp src/view/MinesweeperCellButton.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1193,10 +1202,46 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=14.0 -Wall -Wextra -dM -E -o moc_predefs.h /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -O2 -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=10.15 -Wall -Wextra -dM -E -o moc_predefs.h /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: moc_GameScreen.cpp moc_MinesweeperCellButton.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) moc_GameScreen.cpp moc_MinesweeperCellButton.cpp
+moc_GameScreen.cpp: src/view/GameScreen.hpp \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QGridLayout \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		src/view/MinesweeperCellButton.hpp \
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp \
+		moc_predefs.h \
+		/opt/homebrew/share/qt/libexec/moc
+	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include '/Users/marksamwaiel/Desktop/untitled folder 2/moc_predefs.h' -I/opt/homebrew/share/qt/mkspecs/macx-clang -I'/Users/marksamwaiel/Desktop/untitled folder 2' -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/opt/homebrew/lib src/view/GameScreen.hpp -o moc_GameScreen.cpp
+
+moc_MinesweeperCellButton.cpp: src/view/MinesweeperCellButton.hpp \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp \
+		moc_predefs.h \
+		/opt/homebrew/share/qt/libexec/moc
+	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include '/Users/marksamwaiel/Desktop/untitled folder 2/moc_predefs.h' -I/opt/homebrew/share/qt/mkspecs/macx-clang -I'/Users/marksamwaiel/Desktop/untitled folder 2' -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/opt/homebrew/lib src/view/MinesweeperCellButton.hpp -o moc_MinesweeperCellButton.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
@@ -1211,7 +1256,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean 
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean 
 
 ####### Compile
 
@@ -1226,9 +1271,13 @@ main.o: src/main.cpp /opt/homebrew/lib/QtWidgets.framework/Headers/QApplication 
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QGridLayout \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
 		src/view/MinesweeperCellButton.hpp \
 		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
-		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cpp
 
 GameController.o: src/controller/GameController.cpp src/controller/GameController.hpp \
@@ -1236,31 +1285,6 @@ GameController.o: src/controller/GameController.cpp src/controller/GameControlle
 		src/model/MinesweeperBoard.hpp \
 		src/model/MinesweeperCell.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameController.o src/controller/GameController.cpp
-
-GameScreen.o: src/view/GameScreen.cpp src/view/GameScreen.hpp \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QGridLayout \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
-		src/view/MinesweeperCellButton.hpp \
-		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
-		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
-		src/controller/GameController.hpp \
-		src/model/GameState.hpp \
-		src/model/MinesweeperBoard.hpp \
-		src/model/MinesweeperCell.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameScreen.o src/view/GameScreen.cpp
-
-MineSweeperCellButton.o: src/view/MineSweeperCellButton.cpp src/view/MinesweeperCellButton.hpp \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
-		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
-		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
-		src/controller/GameController.hpp \
-		src/model/GameState.hpp \
-		src/model/MinesweeperBoard.hpp \
-		src/model/MinesweeperCell.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MineSweeperCellButton.o src/view/MineSweeperCellButton.cpp
 
 GameState.o: src/model/GameState.cpp src/model/GameState.hpp \
 		src/model/MinesweeperBoard.hpp \
@@ -1273,6 +1297,43 @@ MinesweeperBoard.o: src/model/MinesweeperBoard.cpp src/model/MinesweeperBoard.hp
 
 MinesweeperCell.o: src/model/MinesweeperCell.cpp src/model/MinesweeperCell.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MinesweeperCell.o src/model/MinesweeperCell.cpp
+
+GameScreen.o: src/view/GameScreen.cpp src/view/GameScreen.hpp \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QGridLayout \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
+		/opt/homebrew/lib/QtCore.framework/Headers/QVector \
+		/opt/homebrew/lib/QtCore.framework/Headers/qvector.h \
+		src/view/MinesweeperCellButton.hpp \
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameScreen.o src/view/GameScreen.cpp
+
+MinesweeperCellButton.o: src/view/MinesweeperCellButton.cpp src/view/MinesweeperCellButton.hpp \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MinesweeperCellButton.o src/view/MinesweeperCellButton.cpp
+
+moc_GameScreen.o: moc_GameScreen.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_GameScreen.o moc_GameScreen.cpp
+
+moc_MinesweeperCellButton.o: moc_MinesweeperCellButton.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MinesweeperCellButton.o moc_MinesweeperCellButton.cpp
 
 ####### Install
 
