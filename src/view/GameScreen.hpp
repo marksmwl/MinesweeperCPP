@@ -3,12 +3,17 @@
 
 #include <QWidget>
 #include <QGridLayout>
-#include <QPushButton>
+#include "MinesweeperCellButton.hpp"
+#include "../controller/GameController.hpp"
 
 class GameScreen : public QWidget
 {
+    GameController *viewController;
+
 public:
-    GameScreen(QWidget *parent = nullptr);
+    GameScreen(QWidget *parent, GameController *controller);
+    // Rerender screen when a button is clicked.
+    void onButtonClick();
 };
 
 #endif

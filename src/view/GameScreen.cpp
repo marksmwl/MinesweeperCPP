@@ -1,7 +1,9 @@
 #include "GameScreen.hpp"
 
-GameScreen::GameScreen(QWidget *parent) : QWidget(parent)
+GameScreen::GameScreen(QWidget *parent, GameController *controller) : QWidget(parent), viewController(controller)
 {
+    std::cout << "viewController in GameScreen: " << viewController << std::endl;
+
     setWindowTitle("Minesweeper");
     setFixedSize(800, 500);
 
@@ -16,8 +18,12 @@ GameScreen::GameScreen(QWidget *parent) : QWidget(parent)
     {
         for (int col = 0; col < 30; ++col)
         {
+            if (viewController == nullptr)
+            {
+                std::cout << "nullptr!" << std::endl;
+            }
             // Create a QLabel to represent each grid cell
-            QPushButton *cell = new QPushButton();
+            CellButton *cell = new CellButton(this, row, col, viewController);
             cell->setStyleSheet("background-color: lightgray;");
             cell->setFixedSize(cellSize, cellSize);
 
@@ -28,4 +34,9 @@ GameScreen::GameScreen(QWidget *parent) : QWidget(parent)
 
     // Set the layout of the window to the grid layout
     setLayout(gridLayout);
+}
+
+// Rerender screen when a button is clicked.
+void GameScreen::onButtonClick()
+{
 }

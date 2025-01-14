@@ -9,9 +9,9 @@ int main(int argc, char **argv)
     srand(time(0));
     QApplication app(argc, argv);
 
-    GameScreen view;
     GameState model;
-    GameController gameController(&view, &model);
+    GameController gameController(&model);
+    GameScreen view(nullptr, &gameController);
 
     view.show();
     return app.exec();

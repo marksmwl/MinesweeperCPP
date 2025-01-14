@@ -53,13 +53,19 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = src/main.cpp \
+		src/controller/GameController.cpp \
 		src/view/GameScreen.cpp \
+		src/view/MineSweeperCellButton.cpp \
 		src/model/GameState.cpp \
-		src/controller/GameController.cpp 
+		src/model/MinesweeperBoard.cpp \
+		src/model/MinesweeperCell.cpp 
 OBJECTS       = main.o \
+		GameController.o \
 		GameScreen.o \
+		MineSweeperCellButton.o \
 		GameState.o \
-		GameController.o
+		MinesweeperBoard.o \
+		MinesweeperCell.o
 DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/device_config.prf \
 		/opt/homebrew/Cellar/qt/6.7.3/share/qt/mkspecs/common/unix.conf \
@@ -404,9 +410,12 @@ DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		/opt/homebrew/share/qt/mkspecs/features/yacc.prf \
 		/opt/homebrew/share/qt/mkspecs/features/lex.prf \
 		project.pro  src/main.cpp \
+		src/controller/GameController.cpp \
 		src/view/GameScreen.cpp \
+		src/view/MineSweeperCellButton.cpp \
 		src/model/GameState.cpp \
-		src/controller/GameController.cpp
+		src/model/MinesweeperBoard.cpp \
+		src/model/MinesweeperCell.cpp
 QMAKE_TARGET  = MineSweeper
 DESTDIR       = 
 TARGET        = MineSweeper.app/Contents/MacOS/MineSweeper
@@ -1151,7 +1160,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cpp src/view/GameScreen.cpp src/model/GameState.cpp src/controller/GameController.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cpp src/controller/GameController.cpp src/view/GameScreen.cpp src/view/MineSweeperCellButton.cpp src/model/GameState.cpp src/model/MinesweeperBoard.cpp src/model/MinesweeperCell.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1209,38 +1218,61 @@ compiler_clean: compiler_moc_predefs_clean
 main.o: src/main.cpp /opt/homebrew/lib/QtWidgets.framework/Headers/QApplication \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qapplication.h \
 		src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp \
 		src/view/GameScreen.hpp \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QGridLayout \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
-		src/model/GameState.hpp
+		src/view/MinesweeperCellButton.hpp \
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cpp
+
+GameController.o: src/controller/GameController.cpp src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameController.o src/controller/GameController.cpp
 
 GameScreen.o: src/view/GameScreen.cpp src/view/GameScreen.hpp \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QGridLayout \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h
+		src/view/MinesweeperCellButton.hpp \
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
+		src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameScreen.o src/view/GameScreen.cpp
 
-GameState.o: src/model/GameState.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameState.o src/model/GameState.cpp
-
-GameController.o: src/controller/GameController.cpp src/controller/GameController.hpp \
-		src/view/GameScreen.hpp \
+MineSweeperCellButton.o: src/view/MineSweeperCellButton.cpp src/view/MinesweeperCellButton.hpp \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QWidget \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QGridLayout \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
-		src/model/GameState.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameController.o src/controller/GameController.cpp
+		/opt/homebrew/lib/QtGui.framework/Headers/QMouseEvent \
+		/opt/homebrew/lib/QtGui.framework/Headers/qevent.h \
+		src/controller/GameController.hpp \
+		src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MineSweeperCellButton.o src/view/MineSweeperCellButton.cpp
+
+GameState.o: src/model/GameState.cpp src/model/GameState.hpp \
+		src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameState.o src/model/GameState.cpp
+
+MinesweeperBoard.o: src/model/MinesweeperBoard.cpp src/model/MinesweeperBoard.hpp \
+		src/model/MinesweeperCell.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MinesweeperBoard.o src/model/MinesweeperBoard.cpp
+
+MinesweeperCell.o: src/model/MinesweeperCell.cpp src/model/MinesweeperCell.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MinesweeperCell.o src/model/MinesweeperCell.cpp
 
 ####### Install
 

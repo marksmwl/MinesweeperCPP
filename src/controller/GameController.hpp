@@ -1,20 +1,19 @@
 #ifndef GAME_CONTROLLER_HEADER
 #define GAME_CONTROLLER_HEADER
 
-#include "../view/GameScreen.hpp"
 #include "../model/GameState.hpp"
 
 class GameController
 {
-    GameScreen *view;
     GameState *model;
 
 public:
-    GameController(GameScreen *, GameState *);
-    void cellRightClicked();
-    void cellLeftClicked();
+    GameController(GameState *);
+    bool rightClickCell(int, int);
+    bool LeftClickCell(int, int);
     static void start();
     void restart();
+    int (&getState())[16][30];
 };
 
 #endif

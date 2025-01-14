@@ -39,12 +39,16 @@ void MinesweeperBoard::setAdjacent(int row, int col)
 
 void MinesweeperBoard::setBombs()
 {
+    // We have 480 cells, I will choose a max of 15% bombs for a medium difficulty (72 bombs)
+    int bombsPlaced = 0;
+
     for (int row = 0; row < 16; row++)
     {
         for (int col = 0; col < 30; col++)
         {
-            if (rand() % 5 == 0)
+            if (rand() % 5 == 0 && bombsPlaced < 72)
             {
+                bombsPlaced++;
                 cells[row][col].setBomb();
                 setAdjacent(row, col);
             }
@@ -71,12 +75,13 @@ void MinesweeperBoard::reset()
     setBombs();
 }
 
-bool MinesweeperBoard::rightClickCell(int, int)
+// Returns the value for the cell's flag.
+bool MinesweeperBoard::rightClickCell(int row, int col)
 {
-    return 0;
+    return cells[row][col].setFlag();
 }
 
-bool MinesweeperBoard::leftClickCell(int row, int col)
+bool MinesweeperBoard::leftClickCell(int row, int col, int (&mask)[16][30])
 {
     assert((row >= 0 && row <= 15) && (col >= 0 && col <= 29));
 
@@ -84,7 +89,35 @@ bool MinesweeperBoard::leftClickCell(int row, int col)
     {
         return true;
     }
+    sweep(row, col, mask);
     return false;
+}
+
+void MinesweeperBoard::sweep(int row, int col, int (&mask)[16][30])
+{
+    if (row < 0 || row > 15 || col < 0 || col > 29)
+    {
+        return;
+    }
+
+    int bombNum = cells[row][col].getAdjBombs();
+    if (bombNum > 0)
+    {
+        mask[row][col] = bombNum;
+        return;
+    }
+    mask[row][col] = bombNum;
+
+    sweep(row + 1, col, mask);
+    sweep(row + 1, col + 1, mask);
+    sweep(row + 1, col - 1, mask);
+
+    sweep(row, col + 1, mask);
+    sweep(row, col - 1, mask);
+
+    sweep(row - 1, col, mask);
+    sweep(row - 1, col + 1, mask);
+    sweep(row - 1, col - 1, mask);
 }
 
 MinesweeperCell (&MinesweeperBoard::getBoard())[16][30]

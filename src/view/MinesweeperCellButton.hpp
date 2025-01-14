@@ -3,14 +3,17 @@
 
 #include <QWidget>
 #include <QMouseEvent>
-#include "../logic/MinesweeperCell.hpp"
+#include "../controller/GameController.hpp"
+#include <iostream>
 
 class CellButton : public QWidget
 {
-    Cell cell;
+    int row;
+    int col;
+    GameController *viewController;
 
 public:
-    CellButton(QWidget *parent, Cell cell);
+    CellButton(QWidget *parent, int row, int col, GameController *viewController);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

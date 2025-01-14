@@ -4,20 +4,23 @@
 #include "MinesweeperCell.hpp"
 #include <cstdlib>
 
+class GameState;
+
 class MinesweeperBoard
 {
     MinesweeperCell cells[16][30];
     void setAdjacent(int, int);
     void setBombs();
-    void placeCells();
+    void reset();
+    bool rightClickCell(int, int);
+    bool leftClickCell(int, int, int (&mask)[16][30]);
+    void sweep(int, int, int (&mask)[16][30]);
+    MinesweeperCell (&getBoard())[16][30];
 
 public:
     // Generates the board with the cells, will override existing cells.
     MinesweeperBoard();
-    void reset();
-    bool rightClickCell(int, int);
-    bool leftClickCell(int, int);
-    MinesweeperCell (&getBoard())[16][30];
+    friend class GameState;
 };
 
 #endif
