@@ -44,17 +44,18 @@ void MinesweeperBoard::setBombs()
     // We have 480 cells, I will choose a max of 10% bombs for a easy difficulty (48 bombs)
     int bombsPlaced = 0;
 
-    for (int row = 0; row < 16; row++)
+    while (bombsPlaced < 48)
     {
-        for (int col = 0; col < 30; col++)
+        int row = rand() % 16;
+        int col = rand() % 30;
+
+        if (cells[row][col].isBomb())
         {
-            if (rand() % 5 == 0 && bombsPlaced < 48)
-            {
-                bombsPlaced++;
-                cells[row][col].setBomb();
-                setAdjacent(row, col);
-            }
+            continue;
         }
+        cells[row][col].setBomb();
+        bombsPlaced++;
+        setAdjacent(row, col);
     }
 }
 
