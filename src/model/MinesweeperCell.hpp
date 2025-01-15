@@ -8,6 +8,7 @@ class MinesweeperCell
     bool hasFlag;
 
 public:
+    MinesweeperCell();
     bool setFlag();
     void setBomb();
     bool isBomb();

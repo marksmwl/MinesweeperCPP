@@ -3,6 +3,8 @@
 
 #include "MinesweeperCell.hpp"
 #include <cstdlib>
+#include <chrono>
+#include <thread>
 
 class GameState;
 

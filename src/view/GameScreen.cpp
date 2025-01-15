@@ -1,9 +1,41 @@
 #include "GameScreen.hpp"
 
-void GameScreen::render()
+// Method for communicating that the game has been lost
+void GameScreen::endGame()
 {
+    player->setSource(QUrl("qrc:/assets/lose_minesweeper.wav"));
+    player->play();
+
+    GameOverScreen *gameOverScreen = new GameOverScreen(this, viewController);
+    connect(gameOverScreen, &GameOverScreen::replayRequested, this, &GameScreen::render);
+    gameOverScreen->exec();
+    return;
+}
+
+void GameScreen::winGame()
+{
+    player->setSource(QUrl("qrc:/assets/win.wav"));
+    player->play();
+    render(true);
+}
+
+void GameScreen::render(bool hasEnded)
+{
+    if (!hasEnded && viewController->checkIfWon())
+    {
+        winGame();
+        return;
+    }
     static int board[16][30];
-    viewController->getState(board);
+
+    if (hasEnded)
+    {
+        viewController->getEndBoard(board);
+    }
+    else
+    {
+        viewController->getState(board);
+    }
 
     for (int row = 0; row < 16; row++)
     {
@@ -14,24 +46,31 @@ void GameScreen::render()
 
             switch (board[row][col])
             {
+            case -3: // Flag
+                cell->setState(1);
+                cell->setText("");
+                break;
+            case -2: // Bomb
+                if (hasEnded)
+                {
+                    cell->setState(2);
+                }
+                else
+                {
+                    cell->setState(0);
+                }
+                cell->setText("");
+                break;
             case -1: // Hidden cell
-                style = "background-color: pink;";
+                cell->setState(0);
                 cell->setText(""); // Clear any previous text
                 break;
 
-            case 0: // Empty revealed cell
-                style = "background-color: white;";
+            default:               // Blank cells and numbered cells.
                 cell->setText(""); // Clear any previous text
+                cell->setState(board[row][col] + 3);
                 break;
-
-            default: // Number cells
-                style = QString("background-color: white; color: %1;")
-                            .arg(board[row][col] == 1 ? "blue" : board[row][col] == 2 ? "green"
-                                                             : board[row][col] == 3   ? "red"
-                                                                                      : "black");
-                cell->setText(QString::number(board[row][col]));
             }
-            cell->setStyleSheet(style);
         }
     }
 }
@@ -39,11 +78,23 @@ void GameScreen::render()
 GameScreen::GameScreen(QWidget *parent, GameController *controller)
     : QWidget(parent), viewController(controller)
 {
+    audioOutput = new QAudioOutput(this);
+    player = new QMediaPlayer(this);
+
+    // Connect the media player to the audio output
+    player->setAudioOutput(audioOutput);
+
+    // Set the volume (0.0 to 1.0)
+    audioOutput->setVolume(0.5);
+
+    player->setSource(QUrl("qrc:/assets/start.wav"));
+    player->play();
+
     setWindowTitle("Minesweeper");
     setFixedSize(700, 400);
 
     gridLayout = new QGridLayout;
-    int cellSize = 22;
+    int cellSize = 21;
 
     // Initialize the buttons vector
     buttons.resize(16);
@@ -62,10 +113,21 @@ GameScreen::GameScreen(QWidget *parent, GameController *controller)
     }
 
     setLayout(gridLayout);
-    render();
+    render(false);
 }
 
 void GameScreen::onButtonClick(int row, int col)
 {
-    render();
+    player->setSource(QUrl("qrc:/assets/click.wav"));
+    player->play();
+
+    if (row == -1)
+    {
+        render(true);
+        endGame();
+    }
+    else
+    {
+        render(false);
+    }
 }

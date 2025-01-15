@@ -6,20 +6,28 @@
 #include <QVector>
 #include "MinesweeperCellButton.hpp"
 #include "../controller/GameController.hpp"
+#include <QLabel>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+#include "GameOverScreen.hpp"
 
 class GameScreen : public QWidget
 {
     Q_OBJECT
 private:
+    QMediaPlayer *player = nullptr;
+    QAudioOutput *audioOutput = nullptr;
     GameController *viewController;
-    void render();
+    void endGame();
     QGridLayout *gridLayout;
     QVector<QVector<CellButton *>> buttons; // Store buttons in a 2D vector
+    void winGame();
 
 public:
     GameScreen(QWidget *parent, GameController *controller);
 
 private slots:
+    void render(bool);
     void onButtonClick(int row, int col);
 };
 #endif

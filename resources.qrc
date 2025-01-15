@@ -1,0 +1,12 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/">
+        <file>assets/tile.jpg</file>
+        <file>assets/flagimage.jpg</file>
+        <file>assets/bombimage.jpg</file>
+        <file>assets/start.wav</file>
+        <file>assets/lose_minesweeper.wav</file>
+        <file>assets/click.wav</file>
+        <file>assets/win.wav</file>
+    </qresource>
+</RCC>

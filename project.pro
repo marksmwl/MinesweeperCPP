@@ -1,6 +1,7 @@
 TEMPLATE = app
 TARGET = MineSweeper
 QT += widgets
+QT += multimedia
 
 # Add your source files here
 HEADERS += \
@@ -9,7 +10,8 @@ HEADERS += \
     src/model/MinesweeperBoard.hpp \
     src/model/MinesweeperCell.hpp \
     src/view/GameScreen.hpp \
-    src/view/MinesweeperCellButton.hpp
+    src/view/MinesweeperCellButton.hpp \
+    src/view/GameOverScreen.hpp
 
 SOURCES += \
     src/main.cpp \
@@ -18,8 +20,12 @@ SOURCES += \
     src/model/MinesweeperBoard.cpp \
     src/model/MinesweeperCell.cpp \
     src/view/GameScreen.cpp \
-    src/view/MinesweeperCellButton.cpp
+    src/view/MinesweeperCellButton.cpp \
+    src/view/GameOverScreen.cpp
     
+
+RESOURCES += resources.qrc
+
 # Add these lines to ensure proper MOC handling
 CONFIG += c++17
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15

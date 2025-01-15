@@ -24,6 +24,13 @@ void MinesweeperCell::incrementAdjBombs()
     adjBombs++;
 }
 
+MinesweeperCell::MinesweeperCell()
+{
+    hasBomb = false;
+    hasFlag = false;
+    adjBombs = 0;
+}
+
 bool MinesweeperCell::setFlag()
 {
     hasFlag = !hasFlag;

@@ -14,6 +14,8 @@ public:
     static void start();
     void restart();
     void getState(int outBoard[16][30]);
+    void getEndBoard(int outBoard[16][30]);
+    bool checkIfWon();
 };
 
 #endif
