@@ -1271,10 +1271,6 @@ moc_GameScreen.cpp: src/view/GameScreen.hpp \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qboxlayout.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QMenu \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmenu.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QMenuBar \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmenubar.h \
 		moc_predefs.h \
 		/opt/homebrew/share/qt/libexec/moc
 	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include '/Users/marksamwaiel/Desktop/untitled folder 2/moc_predefs.h' -I/opt/homebrew/share/qt/mkspecs/macx-clang -I'/Users/marksamwaiel/Desktop/untitled folder 2' -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtMultimedia.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtNetwork.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/opt/homebrew/lib src/view/GameScreen.hpp -o moc_GameScreen.cpp
@@ -1379,11 +1375,7 @@ main.o: src/main.cpp /opt/homebrew/lib/QtWidgets.framework/Headers/QApplication 
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QVBoxLayout \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qboxlayout.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QMenu \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmenu.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QMenuBar \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmenubar.h
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cpp
 
 GameController.o: src/controller/GameController.cpp src/controller/GameController.hpp \
@@ -1440,11 +1432,7 @@ GameScreen.o: src/view/GameScreen.cpp src/view/GameScreen.hpp \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QVBoxLayout \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/qboxlayout.h \
 		/opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QMenu \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmenu.h \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/QMenuBar \
-		/opt/homebrew/lib/QtWidgets.framework/Headers/qmenubar.h
+		/opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GameScreen.o src/view/GameScreen.cpp
 
 MinesweeperCellButton.o: src/view/MinesweeperCellButton.cpp src/view/MinesweeperCellButton.hpp \
