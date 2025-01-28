@@ -28,4 +28,3 @@ RESOURCES += resources.qrc
 
 # Add these lines to ensure proper MOC handling
 CONFIG += c++17
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
